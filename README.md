@@ -1,4 +1,4 @@
-# fellas-backend
+# fastapi-task-activity
 
 ### How to run
 
