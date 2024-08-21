@@ -8,9 +8,9 @@ from datetime import datetime
 
 def create_task_activity(db: Session, user: schemas_auth.User, task: schemas.TaskActivity):
   db_task = models.TaskActivity(**task.__dict__, created_by=user.username, modified_by=user.username)
-  db.add(db_task)
-  db.commit()
-  db.refresh(db_task)
+  # db.add(db_task)
+  # db.commit()
+  # db.refresh(db_task)
         
   return db_task
 

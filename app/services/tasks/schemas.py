@@ -53,9 +53,9 @@ class TaskActivityUpdate(BaseModel):
   status                            : Literal[*StatusEnum]
   
 class TaskNotification(BaseModel):
-  category                          : Optional[str] = ("",)
+  category                          : Optional[str] = ""
   object_type                       : Optional[str] = ""
-  object_name                       : Optional[str] = ("",)
+  object_name                       : Optional[str] = ""
   action                            : Optional[str] = ""
   event                             : Optional[str] = ""
   

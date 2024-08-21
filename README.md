@@ -58,3 +58,4 @@ ACCESS_TOKEN_EXPIRE_MINUTES=30
 - `POST /task` : Creates a new task. (Payload should be a JSON object representing the Task schema)
 - `PUT /task/{id}`: Update status in existing task. (Payload should be a JSON object with updated status)
 - `DELETE /task/{id}`: Deletes an existing task.
+- `POST /notification`: Webhooks to send notification of created and modified task

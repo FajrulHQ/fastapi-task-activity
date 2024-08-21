@@ -10,13 +10,18 @@ module = 'task'
 route = f"/{module}"
 
 # Notification webhooks
-@router.post("/notification")
+@router.post("/notification", tags=['webhooks'])
 def send_notification(
     body: schemas.TaskNotification
 ):
-    message = f"{body.category[0]} {body.object_type} of {body.object_name[0]} {body.action} {body.event}"
-    logging.basicConfig(stream=sys.stdout, level=logging.INFO, format='%(levelname)s:\t  %(message)s')
-    logging.info(message)
+  if type(body.category) != "str":
+    body.category = body.category[0]
+  if type(body.object_type) != "str":
+    body.object_name = body.object_name[0]
+    
+  message = f"{body.category} {body.object_type} of {body.object_name} {body.action} {body.event}"
+  logging.basicConfig(stream=sys.stdout, level=logging.INFO, format='%(levelname)s:\t  %(message)s')
+  logging.info(message)
   
 @router.post("/", tags=[module])
 def create_task_activity(
