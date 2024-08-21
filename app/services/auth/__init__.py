@@ -10,8 +10,11 @@ router = APIRouter()
 module = 'auth'
 route = f"/{module}"
 
-@router.post("/users/", tags=[module], response_model=schemas.UserBase)
-def create_user(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
+@router.post("/users/", tags=[module], response_model=schemas.User)
+def create_user(
+    user: schemas.UserCreate, 
+    db: Session = Depends(database.get_db)
+):
     # Check if the username or email is already taken
     db_user = crud.get_user_by_username(db, username=user.username)
     if db_user:
@@ -19,12 +22,17 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(database.get_db)
     
     return crud.create_user(db=db, user=user)
 
-@router.get("/users/me/", tags=[module], response_model=schemas.UserBase)
-async def read_users_me(current_user: schemas.UserBase = Depends(crud.get_current_active_user)):
-    return current_user
+@router.get("/users/me/", tags=[module], response_model=schemas.User)
+async def read_users_me(
+    user: schemas.User = Depends(crud.verify_token)
+):
+    return user
 
 @router.post("/login/", tags=[module], response_model=schemas.Token)
-def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):
+def login_for_access_token(
+    form_data: OAuth2PasswordRequestForm = Depends(), 
+    db: Session = Depends(database.get_db)
+):
     user = crud.authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
