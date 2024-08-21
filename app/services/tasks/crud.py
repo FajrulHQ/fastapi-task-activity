@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, BackgroundTasks
 from sqlalchemy.orm import Session
 from . import schemas, models
 from app.services.auth import schemas as schemas_auth
@@ -58,7 +58,6 @@ def update_task_activity_status(db: Session, user: schemas_auth.User, data: sche
     # History detail capture
     previous_action = 'Modified' if history_exist else 'Created'
     latest_action = 'Modified'
-    print(previous_action, latest_action)
     for field, values in zip(
       ["status", "created_at", "created_by", "action"],
       [
@@ -83,5 +82,5 @@ def update_task_activity_status(db: Session, user: schemas_auth.User, data: sche
     task.modified_by = user.username
     db.commit()
     
-  return {"detail", "task updated successfully"}
+  return task
   

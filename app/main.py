@@ -8,8 +8,7 @@ from app.services.auth import (
     models as models_auth
 )
 from app.services.tasks import (
-    models as models_tasks, 
-    schemas as schemas_tasks
+    models as models_tasks
 )
 
 models_auth.Base.metadata.create_all(bind=database.engine)
@@ -26,11 +25,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.webhooks.post("/notification", response_model=str)
-def send_notification(
-    body: schemas_tasks.TaskActivityNotification
-):
-    message = f"{body.category} {body.object_type} of {body.object_name} {body.action} {body.event}"
-    return message
 
 app.include_router(api.router)

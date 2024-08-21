@@ -3,8 +3,8 @@ from typing import Optional, Literal
 from datetime import datetime
 from fastapi import Query
 
-ActivityGroupSubCategoryNameEnum    = ["Tasks", "Email", "Chats", "Notes", "Meetings", "Calls", "Logs"]
-ActivityTypeNameEnum                = ["Customer Contact", "Partner Contact", "Employee Contact"]
+ActivityTypeNameEnum                = ["Tasks", "Email", "Chats", "Notes", "Meetings", "Calls", "Logs"]
+ActivityGroupSubCategoryNameEnum    = ["Customer Contact", "Partner Contact", "Employee Contact"]
 ActivityGroupNameEnum               = ["Contact", "Engagement", "Products", "Partners", "Quotes", "Notes", "Stage History", "Approval History", "Files"]
 CoreGroupCategoryEnum               = ["Contacts", "Leads", "Opportunity", "Customers"]
 StageNameEnum                       = ["New", "Proposal Creation", "Presentation", "Negotiation", "Closed", "Mark As Completed"]
@@ -52,9 +52,10 @@ class TaskActivityUpdate(BaseModel):
   id                                : Optional[int] = None
   status                            : Literal[*StatusEnum]
   
-class TaskActivityNotification(BaseModel):
-  category                          : str
-  object_type                       : str
-  object_name                       : str
-  event                             : Literal['successfully', 'raise an error']
-  action                            : Literal['modified', 'created']
+class TaskNotification(BaseModel):
+  category                          : Optional[str] = ("",)
+  object_type                       : Optional[str] = ""
+  object_name                       : Optional[str] = ("",)
+  action                            : Optional[str] = ""
+  event                             : Optional[str] = ""
+  
