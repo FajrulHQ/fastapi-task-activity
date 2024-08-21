@@ -9,7 +9,7 @@ router = APIRouter()
 module = 'task'
 route = f"/{module}"
 
-@router.post("/activity/", tags=[module])
+@router.post("/", tags=[module])
 def create_task_activity(
   task: schemas.TaskActivityBase, 
   user: schemas_auth.User = Depends(crud_auth.verify_token),
@@ -17,14 +17,14 @@ def create_task_activity(
 ):
   return crud.create_task_activity(db=db, user=user, task=task)
 
-@router.get("/activity/", tags=[module], dependencies=[Depends(crud_auth.verify_token)])
+@router.get("/", tags=[module], dependencies=[Depends(crud_auth.verify_token)])
 def get_task_activity(
   params: schemas.TaskActivityParams = Depends(),
   db: Session = Depends(database.get_db)
 ):
   return crud.get_tasks_activity(db=db, params=params)
 
-@router.get("/activity/{id}", tags=[module], dependencies=[Depends(crud_auth.verify_token)])
+@router.get("/{id}", tags=[module], dependencies=[Depends(crud_auth.verify_token)])
 def get_task_activity_by_id(
   id: int,
   db: Session = Depends(database.get_db)
@@ -34,7 +34,7 @@ def get_task_activity_by_id(
     raise HTTPException(status_code=404, detail="Not found")
   return task
 
-@router.delete("/activity/{id}", tags=[module], dependencies=[Depends(crud_auth.verify_token)])
+@router.delete("/{id}", tags=[module], dependencies=[Depends(crud_auth.verify_token)])
 def get_task_activity_by_id(
   id: int,
   db: Session = Depends(database.get_db)
@@ -46,7 +46,7 @@ def get_task_activity_by_id(
   db.commit()
   return {"detail": "Task deleted successfully"}
 
-@router.put("/activity/{id}", tags=[module])
+@router.put("/{id}", tags=[module])
 def get_task_activity_by_id(
   id: int,
   data: schemas.TaskActivityUpdate,
